@@ -1,0 +1,47 @@
+<project name="ClientServer" default="build-all" basedir=".">
+	<property name="server_src" 	location="server/src"/>
+	<property name="server_build" 	location="server/bin"/>
+	<property name="client_src"		location="client/src"/>
+	<property name="client_build"	location="client/bin"/>
+
+	<target name="build-all" depends="build-client, build-server"/>
+	<target name="build-client" depends="clean-client, init-client, compile-client"/>
+	<target name="build-server" depends="clean-server, init-server, compile-server"/>
+
+	<target name="clean-client">
+		<delete dir="${client_build}"/>
+	</target>
+
+	<target name="clean-server">
+		<delete dir="${server_build}"/>
+	</target>
+
+	<target name="init-client">
+		<mkdir dir="${client_build}"/>
+	</target>
+
+	<target name="init-server">
+		<mkdir dir="${server_build}"/>
+	</target>
+
+	<target name="compile-client">
+		<javac srcdir="${client_src}" destdir="${client_build}" includeantruntime="false" debug="true" debuglevel="lines,vars,source">
+		</javac>
+	</target>
+
+	<target name="compile-server">
+		<javac srcdir="${server_src}" destdir="${server_build}" includeantruntime="false" debug="true" debuglevel="lines,vars,source">
+		</javac>
+	</target>
+
+    <target name="client" description="run the client!">
+        <java fork="true" classpath="${client_build}" classname="com.clientserver.Client">
+        </java>
+    </target>
+
+    <target name="server" description="run the server!">
+        <java fork="true" classpath="${server_build}" classname="com.clientserver.Server">
+        </java>
+    </target>
+
+</project>
